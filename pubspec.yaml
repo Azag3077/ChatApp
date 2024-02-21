@@ -1,10 +1,10 @@
 name: chatapp
 description: A new Flutter project.
-publish_to: 'none'
+publish_to: "none"
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.1.5 <4.0.0'
+  sdk: ">=3.1.2 <4.0.0"
 
 dependencies:
   flutter:
@@ -13,10 +13,10 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter_riverpod: ^2.4.10
   device_info: ^2.0.3
-#  device_info_plus: ^9.1.2
   firebase_core: ^2.24.2
   cloud_firestore: ^4.14.0
   firebase_storage: ^11.6.0
+  shared_preferences: ^2.2.2
 
 dev_dependencies:
   flutter_test:
