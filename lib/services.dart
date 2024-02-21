@@ -16,14 +16,15 @@ class FirebaseService {
     final uid = await getDeviceUid();
     final docSnapshot = await _chatsRef.doc(uid).get();
 
-    print(docSnapshot.exists);
-    return;
-
     if (!docSnapshot.exists) {
-      _chatsRef.doc(uid).collection('azag').add({
-        'azag': 'video.file.size',
-        'createdDate': FieldValue.serverTimestamp(),
-        'updatedDate': FieldValue.serverTimestamp(),
+      _chatsRef.doc(uid).set({
+        'id': uid,
+        'username': 'Azag',
+        'profileImage': 'profileImage',
+        'friendLists': [],
+        'groupLists': [],
+        'joinedDate': FieldValue.serverTimestamp(),
+        'lastSeenDate': FieldValue.serverTimestamp(),
       });
     }
   }
