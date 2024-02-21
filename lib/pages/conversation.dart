@@ -1,20 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final messagesProvider = StateProvider<List<Message>>((ref) {
-  return List.empty();
-});
-
-class Message {
-  Message({
-    required this.message,
-    required this.sentTime,
-    required this.isSender,
-  });
-  final String message;
-  final DateTime sentTime;
-  final bool isSender;
-}
+import '../models.dart';
+import '../providers.dart';
 
 class ConversationPage extends ConsumerStatefulWidget {
   const ConversationPage({super.key});
@@ -137,7 +125,7 @@ Future<void> onSend(WidgetRef ref, TextEditingController controller) async {
 
 Future<String> getResponse(String message) async {
   await Future.delayed(const Duration(milliseconds: 1000));
-  return '<A MESSAGE FROM AN ADMIN>';
+  return '<A MESSAGE FROM THE OTHER FRIEND>';
 }
 
 class MessageBox extends StatelessWidget {

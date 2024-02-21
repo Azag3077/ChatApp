@@ -123,59 +123,35 @@
 //     );
 //   }
 // }
+import 'package:chatapp/pages/splash_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:device_info/device_info.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'pages/chat_lists.dart';
+import 'firebase_options.dart';
 
-void main() => runApp(const ProviderScope(child: MyApp()));
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  runApp(const ProviderScope(child: MyApp()));
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: ChatList(),
-      // home: Scaffold(
-      //   appBar: AppBar(
-      //     title: Text('Device UID Example'),
-      //   ),
-      //   body: Center(
-      //     child: FutureBuilder<String>(
-      //       future: getDeviceUid(context),
-      //       builder: (context, snapshot) {
-      //         if (snapshot.hasData) {
-      //           return Text('Device UID: ${snapshot.data}');
-      //         } else if (snapshot.hasError) {
-      //           return Text('Error: ${snapshot.error}');
-      //         } else {
-      //           return CircularProgressIndicator();
-      //         }
-      //       },
-      //     ),
-      //   ),
-      // ),
+    return MaterialApp(
+      theme: ThemeData(
+        // colorScheme: ColorScheme.fromSeed(seedColor: Colors.purple),
+        useMaterial3: true,
+        // textTheme: const TextTheme(),
+        // appBarTheme: const AppBarTheme(backgroundColor: Color(0xFFFAFAFA)),
+        // scaffoldBackgroundColor: const Color(0xFFFAFAFA),
+      ),
+      home: const SplashScreen(),
     );
-  }
-
-  Future<String> getDeviceUid(BuildContext context) async {
-    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-    String uid = '';
-
-    try {
-      if (Theme.of(context).platform == TargetPlatform.iOS) {
-        IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
-        uid = iosInfo.identifierForVendor ?? '';
-      } else if (Theme.of(context).platform == TargetPlatform.android) {
-        AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-        uid = androidInfo.androidId ?? '';
-      }
-    } catch (e) {
-      print('Error getting device UID: $e');
-    }
-
-    return uid;
   }
 }
