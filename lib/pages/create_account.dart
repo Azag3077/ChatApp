@@ -11,17 +11,17 @@ class _CreateAccountState extends State<CreateAccount> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        // appBar: AppBar(
-        //   title: Text('Xag'),
-        // ),
-        // body: Column(
-        //   children: [
-        //     CircleAvatar(
-        //       backgroundImage: AssetImage('assets/avater/img_12.png'),
-        //     ),
-        //     Text('Create Account'),
-        //   ],
-        // ),
-        );
+      appBar: AppBar(
+        title: Text('Xag'),
+      ),
+      body: Column(
+        children: [
+          CircleAvatar(
+            backgroundImage: AssetImage('assets/avater/img_12.png'),
+          ),
+          Text('Create Account'),
+        ],
+      ),
+    );
   }
 }
