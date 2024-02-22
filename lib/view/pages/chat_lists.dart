@@ -82,10 +82,46 @@ class _ChatListState extends ConsumerState<ChatList> {
                           ),
                         ),
                       ),
-                      IconButton(
-                        onPressed: () {},
-                        icon: const Icon(Icons.more_vert),
-                      )
+                      PopupMenuButton<String>(
+                        position: PopupMenuPosition.under,
+                        onSelected: (String value) => {},
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12.0),
+                        ),
+                        color: Colors.white,
+                        surfaceTintColor: Theme.of(context).primaryColor,
+                        icon: Icon(
+                          Icons.more_vert,
+                          color: Colors.blueGrey.shade600,
+                        ),
+                        padding: EdgeInsets.zero,
+                        itemBuilder: (BuildContext context) {
+                          return <PopupMenuEntry<String>>[
+                            PopupMenuItem<String>(
+                              height: 28.0,
+                              onTap: () => widget.onAddFriend(context),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8.0),
+                              child: Row(
+                                children: <Widget>[
+                                  Icon(
+                                    Icons.add,
+                                    size: 16.0,
+                                    color: Colors.blueGrey.shade800,
+                                  ),
+                                  const SizedBox(width: 12.0),
+                                  Text(
+                                    'Add friends',
+                                    style: TextStyle(
+                                      color: Colors.blueGrey.shade800,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ];
+                        },
+                      ),
                     ],
                   ),
                   _searchBar(context),
@@ -130,8 +166,42 @@ class _ChatListState extends ConsumerState<ChatList> {
                 ),
               )
             else
-              Column(
-                children: <Widget>[],
+              Expanded(
+                child: ListView.separated(
+                  itemCount: user.friendLists.length,
+                  separatorBuilder: (_, __) => const Divider(height: 0.0),
+                  itemBuilder: (BuildContext context, int index) {
+                    // final chat = chatsData.elementAt(index);
+                    return ListTile(
+                      onTap: () => widget.onChatPressed(context, ref),
+                      leading: CircleAvatar(
+                        backgroundImage: AssetImage(user.profileImage),
+                      ),
+                      title: Text('Chat ${index + 1}'),
+                      subtitle: Text('Message of chat ${index + 1}'),
+                      trailing: Column(
+                        children: <Widget>[
+                          const Text(
+                            '3:22 PM',
+                            style: TextStyle(color: Colors.blueGrey),
+                          ),
+                          Container(
+                            margin: const EdgeInsets.all(15.0),
+                            child: const SizedBox.square(
+                              dimension: 6.0,
+                              child: DecoratedBox(
+                                decoration: ShapeDecoration(
+                                  shape: CircleBorder(),
+                                  color: Colors.green,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
               ),
           ],
           // chatList.when(

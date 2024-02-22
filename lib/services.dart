@@ -31,6 +31,17 @@ class FirebaseService {
     return User.fromDoc(data);
   }
 
+  static Stream<List<User>> getUsers() {
+    return _usersRef.snapshots().map(
+        (snapshot) => snapshot.docs.map((doc) => User.fromDoc(doc)).toList());
+  }
+
+  static Future<void> addUser(String currentUserId, String uid) async {
+    await _usersRef.doc(currentUserId).update({
+      'friendLists': FieldValue.arrayUnion([uid]),
+    });
+  }
+
   static Future<void> createUser(String username, String profileImage) async {
     final uid = await getDeviceUid();
     final docSnapshot = await _usersRef.doc(uid).get();
