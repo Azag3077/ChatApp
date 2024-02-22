@@ -4,14 +4,18 @@ class CustomTextField extends StatelessWidget {
   const CustomTextField({
     Key? key,
     this.hintText,
+    this.labelText,
     this.margin = const EdgeInsets.only(bottom: 15.0),
+    this.borderRadius,
     this.prefixIcon,
     this.suffixIcon,
     this.controller,
     this.onTap,
   }) : super(key: key);
   final String? hintText;
+  final String? labelText;
   final EdgeInsetsGeometry? margin;
+  final BorderRadius? borderRadius;
   final Widget? prefixIcon;
   final Widget? suffixIcon;
   final TextEditingController? controller;
@@ -34,20 +38,21 @@ class CustomTextField extends StatelessWidget {
             ),
           ),
           enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8.0),
+            borderRadius: borderRadius ?? BorderRadius.circular(8.0),
             borderSide: const BorderSide(
               color: Color(0xFFD6D6D6),
               width: 1.2,
             ),
           ),
           focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8.0),
+            borderRadius: borderRadius ?? BorderRadius.circular(8.0),
             borderSide: BorderSide(
               color: Theme.of(context).primaryColor,
               width: 1.2,
             ),
           ),
           hintText: hintText,
+          labelText: labelText,
           hintStyle: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.normal,

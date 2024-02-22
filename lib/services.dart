@@ -1,43 +1,49 @@
 import 'package:chatapp/utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 // import 'package:firebase_storage/firebase_storage.dart';
 
-import 'models.dart';
+import 'models/models.dart';
+import 'models/user.dart';
 
 class FirebaseService {
   static final _databaseRef = FirebaseFirestore.instance;
   // static final _storageRef = FirebaseStorage.instance;
-  static final _chatsRef = _databaseRef.collection("chats");
+  static final _usersRef = _databaseRef.collection("users");
+  // static final _chatsRef = _databaseRef.collection("chats");
   // static final _videosRef = _databaseRef.collection('videos');
   // static final _videoStorageRef = _storageRef.ref('videos');
   // static final _thumbnailStorageRef = _storageRef.ref('thumbnail');
 
-  static Future<void> checkUserExistence() async {
-    final uid = await getDeviceUid();
-    final docSnapshot = await _chatsRef.doc(uid).get();
+  // static Future<void> checkUserExistence() async {
+  //   final uid = await getDeviceUid();
+  //
+  //   final docSnapshot = await _chatsRef.doc(uid).get();
+  //   print(docSnapshot.exists);
+  //   print(uid);
+  //
+  // }
 
-    if (!docSnapshot.exists) {
-      _chatsRef.doc(uid).set({
-        'id': uid,
-        'username': 'Azag',
-        'profileImage': 'profileImage',
-        'friendLists': [],
-        'groupLists': [],
-        'joinedDate': FieldValue.serverTimestamp(),
-        'lastSeenDate': FieldValue.serverTimestamp(),
-      });
-    }
+  static Future<User> getUser() async {
+    final prefs = await SharedPreferences.getInstance();
+    final uid = prefs.getString('uid')!;
+    final data = await _usersRef.doc(uid).get();
+    return User.fromDoc(data);
   }
 
-  static Future<void> createUser() async {
+  static Future<void> createUser(String username, String profileImage) async {
     final uid = await getDeviceUid();
-    final docSnapshot = await _chatsRef.doc(uid).get();
+    final docSnapshot = await _usersRef.doc(uid).get();
 
     if (!docSnapshot.exists) {
-      _chatsRef.doc(uid).collection('azag').add({
-        'azag': 'video.file.size',
+      await _usersRef.doc(uid).set({
+        'uid': uid,
+        'username': username,
+        'profileImage': profileImage,
+        'friendLists': [],
+        'groupLists': [],
         'createdDate': FieldValue.serverTimestamp(),
-        'updatedDate': FieldValue.serverTimestamp(),
+        'lastSeen': FieldValue.serverTimestamp(),
       });
     }
   }
@@ -46,7 +52,13 @@ class FirebaseService {
     FirebaseFirestore.instance.settings =
         const Settings(persistenceEnabled: true);
 
-    return _chatsRef.orderBy('timestamp').snapshots().map(
+    // const id = '80cb81a3298076f9';
+    // return _chatsRef.doc(id).snapshots().map((event) {
+    //   return Chat.fromDoc(event);
+    // });
+
+    // return _chatsRef.orderBy('timestamp').snapshots().map(
+    return _usersRef.snapshots().map(
         (snapshot) => snapshot.docs.map((doc) => Chat.fromDoc(doc)).toList());
   }
 }

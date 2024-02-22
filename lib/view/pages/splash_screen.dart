@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../controller.dart';
+import '../controllers/controller.dart';
+import '../controllers/splash_screen.dart';
 
-class SplashScreen extends StatefulWidget with Controller {
+class SplashScreen extends StatefulWidget with SplashScreenController {
   const SplashScreen({Key? key}) : super(key: key);
 
   @override

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../models.dart';
-import '../providers.dart';
+import '../../models/models.dart';
+import '../../providers.dart';
 
 class ConversationPage extends ConsumerStatefulWidget {
   const ConversationPage({super.key});

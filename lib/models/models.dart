@@ -19,14 +19,16 @@ enum ChatType {
 class Chat {
   Chat({
     required this.id,
-    required this.name,
+    required this.username,
+    required this.profileImage,
     required this.lastMessage,
     required this.type,
     this.messages = const [],
     required this.timestamp,
   });
   final String id;
-  final String name;
+  final String username;
+  final String profileImage;
   final String lastMessage;
   final ChatType type;
   final List<String> messages;
@@ -37,7 +39,8 @@ class Chat {
         (data.get('timestamp') as Timestamp?)?.toDate() ?? DateTime.now();
     return Chat(
       id: data.id,
-      name: data.get('name'),
+      username: data.get('username'),
+      profileImage: data.get('profileImage'),
       lastMessage: data.get('lastMessage'),
       type: data.get('type'),
       messages: data.get('videos').cast<String>().toList(),
