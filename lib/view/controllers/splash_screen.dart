@@ -1,5 +1,5 @@
+import 'package:chatapp/services.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../pages/chat_lists.dart';
 import '../pages/get_started.dart';
@@ -11,13 +11,11 @@ mixin SplashScreenController on Widget {
   }
 
   Future<void> initialize(BuildContext context) async {
-    SharedPreferences.getInstance().then((prefs) {
-      final uid = prefs.getString('uid');
-
-      if (uid == null) {
-        _gotoPage(context, const GetStarted());
-      } else {
+    FirebaseService.checkUserExistence().then((isExist) {
+      if (isExist) {
         _gotoPage(context, const ChatList());
+      } else {
+        _gotoPage(context, const GetStarted());
       }
     });
   }

@@ -24,6 +24,8 @@ class GetStarted extends StatelessWidget with GetStartedController {
                   fontSize: 24,
                 ),
               ),
+              const SizedBox(height: 50.0),
+              Image.asset('assets/images/get_started_img.png'),
               const Spacer(),
               CustomElevatedButton(
                 onPressed: () => onGetStarted(context),

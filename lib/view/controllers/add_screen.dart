@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 mixin AddScreenController on Widget {
-  Future<void> addUser(WidgetRef ref, String currentUserId, String uid) async {
-    FirebaseService.addUser(currentUserId, uid).then((value) {
+  Future<void> addUser(WidgetRef ref, String currentUserId, String uid, bool shouldAdd) async {
+    FirebaseService.addUser(currentUserId, uid, shouldAdd).then((value) {
       // ref
     });
   }

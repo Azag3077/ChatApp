@@ -3,12 +3,32 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class Message {
   Message({
     required this.message,
-    required this.sentTime,
+    required this.timestamp,
     required this.isSender,
   });
   final String message;
-  final DateTime sentTime;
+  final DateTime timestamp;
   final bool isSender;
+
+  factory Message.fromDoc(DocumentSnapshot data) {
+    print(data.data());
+    print((data.data() as Map).keys);
+    final timestamp =
+        (data.get('timestamp') as Timestamp?)?.toDate() ?? DateTime.now();
+    return Message(
+      message: data.get('message'),
+      timestamp: timestamp,
+      isSender: data.get('isSender'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'message': message,
+      'timestamp': timestamp,
+      'isSender': isSender,
+    };
+  }
 }
 
 enum ChatType {

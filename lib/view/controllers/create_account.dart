@@ -17,7 +17,9 @@ mixin CreateAccountController on Widget {
       return true;
     }
     pageController.previousPage(
-        duration: pageAnimationDuration, curve: Curves.linear);
+      duration: pageAnimationDuration,
+      curve: Curves.linear,
+    );
     return false;
   }
 

@@ -6,6 +6,10 @@ import 'models/user.dart';
 
 final userProvider = StateProvider<User?>((ref) => null);
 
+final chatDetailsProvider = StreamProvider.family<User, String?>((ref, id) {
+  return FirebaseService.getChatDetailsStream(id);
+});
+
 final usersProvider = StreamProvider<List<User>>((ref) {
   return FirebaseService.getUsers();
   final userId = ref.read(userProvider)?.uid;
@@ -25,6 +29,11 @@ final pageIndexProvider = StateProvider<int>((ref) => 0);
 final chatsProvider =
     StreamProvider<List<Chat>>((ref) => FirebaseService.getChats());
 
-final messagesProvider = StateProvider<List<Message>>((ref) {
+final messagesProvider1 = StateProvider<List<Message>>((ref) {
   return List.empty();
+});
+
+final messagesProvider =
+    StreamProvider.family<List<Message>, String>((ref, id) {
+  return FirebaseService.getChatMessagesStream(id);
 });

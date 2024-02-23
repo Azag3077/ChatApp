@@ -10,10 +10,8 @@ class AddScreen extends ConsumerWidget with AddScreenController {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final currentUser = ref.watch(userProvider)!;
+    final currentUser = ref.watch(chatDetailsProvider(null)).value!;
     final users = ref.watch(usersProvider);
-
-    print(currentUser.friendLists);
 
     return Scaffold(
       appBar: AppBar(
@@ -27,10 +25,15 @@ class AddScreen extends ConsumerWidget with AddScreenController {
             itemBuilder: (BuildContext context, int index) {
               final user = data.elementAt(index);
               final isCurrentUser = currentUser.uid == user.uid;
+              final isFriend = currentUser.friendLists.keys.contains(user.uid);
+              if (isCurrentUser) {
+                return const SizedBox.shrink();
+              }
               return Column(
                 children: <Widget>[
                   ListTile(
-                    onTap: () => addUser(ref, currentUser.uid, user.uid),
+                    onTap: () =>
+                        addUser(ref, currentUser.uid, user.uid, !isFriend),
                     leading: IconButton(
                       onPressed: () {},
                       icon: CircleAvatar(
@@ -42,13 +45,11 @@ class AddScreen extends ConsumerWidget with AddScreenController {
                         const EdgeInsets.symmetric(horizontal: 10.0),
                     title: Text(user.username),
                     subtitle: Text('Message of chat ${index + 1}'),
-                    tileColor: isCurrentUser ? Colors.grey.shade200 : null,
-                    trailing: isCurrentUser
-                        ? null
-                        : CategoryChip(
-                            text: 'Add Friend',
-                            onPressed: () => {},
-                          ),
+                    trailing: CategoryChip(
+                      text: isFriend ? 'Remove Friend' : 'Add Friend',
+                      onPressed: () =>
+                          addUser(ref, currentUser.uid, user.uid, !isFriend),
+                    ),
                   ),
                   Divider(height: 0.0, color: Colors.grey.shade200),
                 ],
